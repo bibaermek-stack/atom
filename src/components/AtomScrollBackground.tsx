@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 
 /** All exported atom frames from Downloads/Atom */
@@ -16,6 +17,14 @@ const MODEL_URLS = [
 ] as const;
 
 const FRAME_COUNT = MODEL_URLS.length;
+
+/** Glow palette matching the reference atom render */
+const GLOW = {
+  core: '#9affd6',
+  mid: '#3dffb0',
+  outer: '#12c97a',
+  deep: '#0a8f55',
+};
 
 /** Full-page scroll progress 0 → 1 */
 function useScrollProgress() {
@@ -39,42 +48,100 @@ function useScrollProgress() {
   return progress;
 }
 
-function prepareObject(source: THREE.Group): THREE.Group {
-  const clone = source.clone(true);
+/**
+ * Convert solid OBJ meshes into the glowing point + wireframe look
+ * from the reference screenshot (additive green particle cloud).
+ */
+function prepareObject(source: THREE.Object3D): THREE.Group {
+  const group = new THREE.Group();
+  const geometries: THREE.BufferGeometry[] = [];
 
-  const box = new THREE.Box3().setFromObject(clone);
-  const center = box.getCenter(new THREE.Vector3());
-  const size = box.getSize(new THREE.Vector3());
-  const maxDim = Math.max(size.x, size.y, size.z) || 1;
-  const scale = 3.2 / maxDim;
-
-  clone.traverse((child) => {
-    if ((child as THREE.Mesh).isMesh) {
-      const mesh = child as THREE.Mesh;
-      mesh.geometry = mesh.geometry.clone();
-      mesh.geometry.translate(-center.x, -center.y, -center.z);
-      mesh.material = new THREE.MeshStandardMaterial({
-        color: new THREE.Color('#166534'),
-        metalness: 0.55,
-        roughness: 0.28,
-        emissive: new THREE.Color('#0a3d1f'),
-        emissiveIntensity: 0.15,
-        transparent: true,
-        opacity: 0.72,
-        side: THREE.DoubleSide,
-      });
-      mesh.castShadow = false;
-      mesh.receiveShadow = false;
-    }
+  source.updateMatrixWorld(true);
+  source.traverse((child) => {
+    if (!(child as THREE.Mesh).isMesh) return;
+    const mesh = child as THREE.Mesh;
+    const geo = mesh.geometry.clone();
+    geo.applyMatrix4(mesh.matrixWorld);
+    geometries.push(geo);
   });
 
-  clone.scale.setScalar(scale);
-  return clone;
+  if (geometries.length === 0) return group;
+
+  // Merge all parts into one geometry for a single particle system
+  const merged =
+    geometries.length === 1
+      ? geometries[0]
+      : mergeBufferGeometries(geometries);
+
+  // Center
+  merged.computeBoundingBox();
+  const box = merged.boundingBox!;
+  const center = box.getCenter(new THREE.Vector3());
+  merged.translate(-center.x, -center.y, -center.z);
+
+  const size = box.getSize(new THREE.Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z) || 1;
+  const scale = 3.6 / maxDim;
+  group.scale.setScalar(scale);
+
+  // Layer 1 — dense glowing points (main look of reference image)
+  const pointsMat = new THREE.PointsMaterial({
+    color: new THREE.Color(GLOW.mid),
+    size: 0.028,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.9,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    toneMapped: false,
+  });
+  group.add(new THREE.Points(merged, pointsMat));
+
+  // Layer 2 — finer bright core sparkle (nucleus density)
+  const coreMat = new THREE.PointsMaterial({
+    color: new THREE.Color(GLOW.core),
+    size: 0.012,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.55,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    toneMapped: false,
+  });
+  group.add(new THREE.Points(merged, coreMat));
+
+  // Layer 3 — subtle wireframe shell
+  const wireMat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(GLOW.outer),
+    wireframe: true,
+    transparent: true,
+    opacity: 0.12,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    toneMapped: false,
+  });
+  group.add(new THREE.Mesh(merged, wireMat));
+
+  return group;
+}
+
+/** Lightweight merge without extra deps */
+function mergeBufferGeometries(geos: THREE.BufferGeometry[]): THREE.BufferGeometry {
+  const positions: number[] = [];
+  for (const g of geos) {
+    const pos = g.getAttribute('position');
+    if (!pos) continue;
+    for (let i = 0; i < pos.count; i++) {
+      positions.push(pos.getX(i), pos.getY(i), pos.getZ(i));
+    }
+  }
+  const merged = new THREE.BufferGeometry();
+  merged.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  return merged;
 }
 
 /**
- * Sequentially loads all 8 OBJ frames so the first model appears quickly
- * and the rest fill in without a 120MB parallel spike.
+ * Sequentially loads all 8 OBJ frames so the first model appears quickly.
  */
 function useAtomFrames() {
   const [frames, setFrames] = useState<(THREE.Group | null)[]>(() =>
@@ -91,7 +158,7 @@ function useAtomFrames() {
       for (let i = 0; i < FRAME_COUNT; i++) {
         if (cancelled) return;
         try {
-          const raw = (await loader.loadAsync(MODEL_URLS[i])) as THREE.Group;
+          const raw = await loader.loadAsync(MODEL_URLS[i]);
           if (cancelled) return;
           const prepared = prepareObject(raw);
           setFrames((prev) => {
@@ -102,9 +169,7 @@ function useAtomFrames() {
           setLoadedCount(i + 1);
         } catch (e) {
           console.error(`Failed to load ${MODEL_URLS[i]}`, e);
-          if (!cancelled) {
-            setError(`model_${i}.obj жүктелмеді`);
-          }
+          if (!cancelled) setError(`model_${i}.obj жүктелмеді`);
         }
       }
     })();
@@ -127,12 +192,11 @@ function AtomFrames({
   const groupRef = useRef<THREE.Group>(null);
   const meshGroupRef = useRef<THREE.Group>(null);
 
-  // Scroll drives both frame index (all 8 OBJs) and continuous spin
-  const frameFloat = progress * FRAME_COUNT * 2; // 2 full cycles across the page
+  // Scroll drives frame index (all 8 OBJs) + continuous spin
+  const frameFloat = progress * FRAME_COUNT * 2;
   const frameIndex = Math.floor(frameFloat) % FRAME_COUNT;
   const targetRotation = progress * Math.PI * 3;
 
-  // Prefer requested frame; fall back to nearest already-loaded one
   const activeObject = useMemo(() => {
     if (frames[frameIndex]) return frames[frameIndex];
     for (let d = 1; d < FRAME_COUNT; d++) {
@@ -154,13 +218,19 @@ function AtomFrames({
     );
     groupRef.current.rotation.x = THREE.MathUtils.damp(
       groupRef.current.rotation.x,
-      0.25 + Math.sin(targetRotation) * 0.12,
+      0.15 + Math.sin(targetRotation) * 0.08,
       4,
+      delta
+    );
+    // Slow idle spin so it feels alive even without scrolling
+    groupRef.current.rotation.z = THREE.MathUtils.damp(
+      groupRef.current.rotation.z,
+      Math.sin(targetRotation * 0.5) * 0.1,
+      3,
       delta
     );
   });
 
-  // Swap visible mesh when active frame changes
   useEffect(() => {
     const parent = meshGroupRef.current;
     if (!parent || !activeObject) return;
@@ -189,17 +259,27 @@ function Scene({
 }) {
   return (
     <>
-      <ambientLight intensity={0.55} />
-      <directionalLight position={[6, 8, 4]} intensity={1.1} color="#ffffff" />
-      <directionalLight position={[-4, 2, -3]} intensity={0.45} color="#86efac" />
-      <pointLight position={[0, 0, 4]} intensity={0.35} color="#4ade80" />
+      {/* Dark void — matches reference black background around the atom */}
+      <color attach="background" args={['#020806']} />
+      <ambientLight intensity={0.4} />
+      <pointLight position={[0, 0, 3]} intensity={1.2} color="#5fffc8" />
+      <pointLight position={[4, 2, 2]} intensity={0.5} color="#a7f3d0" />
       <AtomFrames frames={frames} progress={progress} />
+      <EffectComposer multisampling={0}>
+        <Bloom
+          luminanceThreshold={0.15}
+          luminanceSmoothing={0.4}
+          intensity={1.85}
+          mipmapBlur
+          radius={0.7}
+        />
+      </EffectComposer>
     </>
   );
 }
 
 /**
- * Fixed full-viewport atom: all 8 OBJ frames scrub with scroll + rotate.
+ * Fixed full-viewport atom: glowing particle look + all 8 frames + scroll spin.
  */
 export const AtomScrollBackground: React.FC = () => {
   const progress = useScrollProgress();
@@ -211,34 +291,39 @@ export const AtomScrollBackground: React.FC = () => {
       className="fixed inset-0 z-0 pointer-events-none"
       aria-hidden="true"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-50/90 via-green-50/40 to-slate-50/90" />
+      {/* Full dark space behind content so the glow looks like the reference */}
+      <div className="absolute inset-0 bg-[#020806]" />
 
       {hasAnyFrame && (
         <Canvas
           className="!absolute inset-0"
-          dpr={[1, 1.5]}
+          dpr={[1, 1.75]}
           gl={{
             antialias: true,
-            alpha: true,
+            alpha: false,
             powerPreference: 'high-performance',
+            toneMapping: THREE.ACESFilmicToneMapping,
+            toneMappingExposure: 1.15,
           }}
-          camera={{ position: [0, 0, 6.5], fov: 42, near: 0.1, far: 100 }}
-          style={{ background: 'transparent' }}
+          camera={{ position: [0, 0, 7.2], fov: 40, near: 0.1, far: 100 }}
+          onCreated={({ gl }) => {
+            gl.setClearColor('#020806', 1);
+          }}
         >
           <Scene frames={frames} progress={progress} />
         </Canvas>
       )}
 
-      {/* Loading indicator while frames stream in */}
+      {/* Soft vignette edges so UI cards stay readable */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,transparent_35%,rgba(2,8,6,0.35)_70%,rgba(2,8,6,0.65)_100%)]" />
+
       {loadedCount < FRAME_COUNT && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[1] px-3 py-1.5 rounded-full bg-white/80 border border-[#166534]/20 text-[11px] font-semibold text-[#166534] shadow-sm">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[1] px-3 py-1.5 rounded-full bg-black/60 border border-emerald-400/30 text-[11px] font-semibold text-emerald-300 shadow-sm backdrop-blur-sm">
           {error
             ? error
             : `Атом моделі жүктелуде… ${loadedCount}/${FRAME_COUNT}`}
         </div>
       )}
-
-      <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-transparent to-white/55" />
     </div>
   );
 };
