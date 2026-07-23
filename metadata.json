@@ -1,0 +1,6 @@
+{
+  "name": "Атом физикасы оқу құралы",
+  "description": "«Атом физикасы және атом ядросының физикасы» оқу құралының ақпараттық веб-сайты",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

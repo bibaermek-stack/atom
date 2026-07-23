@@ -1,0 +1,109 @@
+import React, { useState } from 'react';
+import { Atom, Menu, X, LayoutDashboard, BookOpen } from 'lucide-react';
+
+interface HeaderProps {
+  onOpenDashboard: () => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({ onOpenDashboard }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navLinks = [
+    { name: 'Кітап туралы', href: '#about' },
+    { name: 'Мазмұны', href: '#contents' },
+    { name: 'Ерекшеліктері', href: '#features' },
+    { name: 'Байланыс', href: '#contact' },
+  ];
+
+  return (
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs transition-all">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          
+          {/* Logo & Title */}
+          <a href="#" id="header-logo" className="flex items-center gap-3 group">
+            <div className="w-11 h-11 rounded-xl bg-[#1B4F72] flex items-center justify-center text-white shadow-md shadow-[#1B4F72]/20 group-hover:bg-[#2874A6] transition-colors duration-200">
+              <Atom className="w-6 h-6 animate-pulse" />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-extrabold text-xl tracking-tight text-[#1B4F72] leading-tight group-hover:text-[#2874A6] transition-colors">
+                Атом физикасы
+              </span>
+              <span className="text-xs text-slate-500 font-medium tracking-wide">
+                Оқу құралы
+              </span>
+            </div>
+          </a>
+
+          {/* Desktop Navigation */}
+          <nav id="desktop-nav" className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                className="text-slate-700 hover:text-[#1B4F72] font-semibold text-sm tracking-wide transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#1B4F72] hover:after:w-full after:transition-all after:duration-300"
+              >
+                {link.name}
+              </a>
+            ))}
+          </nav>
+
+          {/* Right Action Button */}
+          <div className="hidden md:flex items-center gap-4">
+            <button
+              id="header-dashboard-btn"
+              onClick={onOpenDashboard}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#1B4F72] hover:bg-[#2874A6] text-white font-semibold text-sm shadow-md shadow-[#1B4F72]/20 hover:shadow-lg hover:shadow-[#2874A6]/25 transition-all duration-200 active:scale-98 cursor-pointer"
+            >
+              <LayoutDashboard className="w-4 h-4" />
+              <span>Dashboard</span>
+            </button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              id="mobile-menu-toggle"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors"
+              aria-label="Навигация мәзірі"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div id="mobile-menu" className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3 shadow-lg">
+          <div className="flex flex-col gap-2 pt-2">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="px-3 py-2 rounded-lg text-slate-700 hover:text-[#1B4F72] hover:bg-slate-50 font-semibold text-base transition-colors"
+              >
+                {link.name}
+              </a>
+            ))}
+            <div className="pt-2 border-t border-slate-100 mt-2">
+              <button
+                id="mobile-dashboard-btn"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onOpenDashboard();
+                }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#1B4F72] text-white font-semibold text-base shadow-sm"
+              >
+                <LayoutDashboard className="w-5 h-5" />
+                <span>Dashboard</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+};
