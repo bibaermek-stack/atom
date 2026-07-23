@@ -16,7 +16,7 @@ export default function App() {
   const [isDashboardModalOpen, setIsDashboardModalOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col antialiased selection:bg-[#1B4F72] selection:text-white">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col antialiased selection:bg-[#166534] selection:text-white">
       {/* Header Bar */}
       <Header onOpenDashboard={() => setIsDashboardModalOpen(true)} />
 

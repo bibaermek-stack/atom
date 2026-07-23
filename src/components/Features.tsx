@@ -7,13 +7,13 @@ export const Features: React.FC = () => {
   const renderIcon = (iconName: string) => {
     switch (iconName) {
       case 'Cpu':
-        return <Cpu className="w-7 h-7 text-[#1B4F72]" />;
+        return <Cpu className="w-7 h-7 text-[#166534]" />;
       case 'Wrench':
-        return <Wrench className="w-7 h-7 text-[#2874A6]" />;
+        return <Wrench className="w-7 h-7 text-[#15803d]" />;
       case 'Globe':
         return <Globe className="w-7 h-7 text-emerald-600" />;
       default:
-        return <Sparkles className="w-7 h-7 text-[#1B4F72]" />;
+        return <Sparkles className="w-7 h-7 text-[#166534]" />;
     }
   };
 
@@ -23,7 +23,7 @@ export const Features: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#1B4F72]/10 text-[#1B4F72] text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#166534]/10 text-[#166534] text-xs font-bold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Басты басымдықтар</span>
           </div>
@@ -46,7 +46,7 @@ export const Features: React.FC = () => {
                 
                 {/* Top Badge & Icon */}
                 <div className="flex items-center justify-between">
-                  <div className="w-14 h-14 rounded-xl bg-slate-100/80 flex items-center justify-center group-hover:bg-[#1B4F72]/10 transition-colors">
+                  <div className="w-14 h-14 rounded-xl bg-slate-100/80 flex items-center justify-center group-hover:bg-[#166534]/10 transition-colors">
                     {renderIcon(feature.iconName)}
                   </div>
                   <span className="text-xs font-extrabold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
@@ -56,7 +56,7 @@ export const Features: React.FC = () => {
 
                 {/* Card Title & Description */}
                 <div className="space-y-3">
-                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#1B4F72] transition-colors">
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#166534] transition-colors">
                     {feature.title}
                   </h3>
                   <p className="text-sm text-slate-600 leading-relaxed">
@@ -68,7 +68,7 @@ export const Features: React.FC = () => {
                 <div className="pt-2 border-t border-slate-100 space-y-2.5">
                   {feature.highlights.map((item, idx) => (
                     <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-700 font-medium">
-                      <CheckCircle className="w-4 h-4 text-[#2874A6] shrink-0 mt-0.5" />
+                      <CheckCircle className="w-4 h-4 text-[#15803d] shrink-0 mt-0.5" />
                       <span>{item}</span>
                     </div>
                   ))}

@@ -22,11 +22,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDashboard }) => {
           
           {/* Logo & Title */}
           <a href="#" id="header-logo" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 rounded-xl bg-[#1B4F72] flex items-center justify-center text-white shadow-md shadow-[#1B4F72]/20 group-hover:bg-[#2874A6] transition-colors duration-200">
+            <div className="w-11 h-11 rounded-xl bg-[#166534] flex items-center justify-center text-white shadow-md shadow-[#166534]/20 group-hover:bg-[#15803d] transition-colors duration-200">
               <Atom className="w-6 h-6 animate-pulse" />
             </div>
             <div className="flex flex-col">
-              <span className="font-extrabold text-xl tracking-tight text-[#1B4F72] leading-tight group-hover:text-[#2874A6] transition-colors">
+              <span className="font-extrabold text-xl tracking-tight text-[#166534] leading-tight group-hover:text-[#15803d] transition-colors">
                 Атом физикасы
               </span>
               <span className="text-xs text-slate-500 font-medium tracking-wide">
@@ -41,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDashboard }) => {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-slate-700 hover:text-[#1B4F72] font-semibold text-sm tracking-wide transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#1B4F72] hover:after:w-full after:transition-all after:duration-300"
+                className="text-slate-700 hover:text-[#166534] font-semibold text-sm tracking-wide transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#166534] hover:after:w-full after:transition-all after:duration-300"
               >
                 {link.name}
               </a>
@@ -53,7 +53,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDashboard }) => {
             <button
               id="header-dashboard-btn"
               onClick={onOpenDashboard}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#1B4F72] hover:bg-[#2874A6] text-white font-semibold text-sm shadow-md shadow-[#1B4F72]/20 hover:shadow-lg hover:shadow-[#2874A6]/25 transition-all duration-200 active:scale-98 cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#166534] hover:bg-[#15803d] text-white font-semibold text-sm shadow-md shadow-[#166534]/20 hover:shadow-lg hover:shadow-[#15803d]/25 transition-all duration-200 active:scale-98 cursor-pointer"
             >
               <LayoutDashboard className="w-4 h-4" />
               <span>Dashboard</span>
@@ -83,7 +83,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDashboard }) => {
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-lg text-slate-700 hover:text-[#1B4F72] hover:bg-slate-50 font-semibold text-base transition-colors"
+                className="px-3 py-2 rounded-lg text-slate-700 hover:text-[#166534] hover:bg-slate-50 font-semibold text-base transition-colors"
               >
                 {link.name}
               </a>
@@ -95,7 +95,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDashboard }) => {
                   setIsMobileMenuOpen(false);
                   onOpenDashboard();
                 }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#1B4F72] text-white font-semibold text-base shadow-sm"
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#166534] text-white font-semibold text-base shadow-sm"
               >
                 <LayoutDashboard className="w-5 h-5" />
                 <span>Dashboard</span>

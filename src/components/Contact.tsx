@@ -40,7 +40,7 @@ export const Contact: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#1B4F72]/10 text-[#1B4F72] text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#166534]/10 text-[#166534] text-xs font-bold uppercase tracking-wider">
             <MessageSquare className="w-3.5 h-3.5" />
             <span>Кері байланыс</span>
           </div>
@@ -58,14 +58,14 @@ export const Contact: React.FC = () => {
           {/* Left Info Panel */}
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/90 shadow-sm space-y-6">
-              <h3 className="text-xl font-extrabold text-[#1B4F72] flex items-center gap-2">
-                <Building2 className="w-5 h-5 text-[#2874A6]" />
+              <h3 className="text-xl font-extrabold text-[#166534] flex items-center gap-2">
+                <Building2 className="w-5 h-5 text-[#15803d]" />
                 Байланыс ақпараты
               </h3>
 
               <div className="space-y-4 text-sm text-slate-700">
                 <div className="flex items-start gap-3.5 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <BookOpen className="w-5 h-5 text-[#1B4F72] shrink-0 mt-0.5" />
+                  <BookOpen className="w-5 h-5 text-[#166534] shrink-0 mt-0.5" />
                   <div>
                     <span className="text-xs font-bold text-slate-500 uppercase block">Оқу басылымы</span>
                     <p className="font-semibold text-slate-900">{BOOK_METADATA.title}</p>
@@ -73,7 +73,7 @@ export const Contact: React.FC = () => {
                 </div>
 
                 <div className="flex items-start gap-3.5 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <Building2 className="w-5 h-5 text-[#1B4F72] shrink-0 mt-0.5" />
+                  <Building2 className="w-5 h-5 text-[#166534] shrink-0 mt-0.5" />
                   <div>
                     <span className="text-xs font-bold text-slate-500 uppercase block">Университет</span>
                     <p className="font-semibold text-slate-900">{BOOK_METADATA.university}</p>
@@ -82,7 +82,7 @@ export const Contact: React.FC = () => {
                 </div>
 
                 <div className="flex items-start gap-3.5 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <MapPin className="w-5 h-5 text-[#1B4F72] shrink-0 mt-0.5" />
+                  <MapPin className="w-5 h-5 text-[#166534] shrink-0 mt-0.5" />
                   <div>
                     <span className="text-xs font-bold text-slate-500 uppercase block">Мекенжайы</span>
                     <p className="font-semibold text-slate-900">Қазақстан Республикасы, Түркістан қ., Б.Саттарханов даңғылы 29</p>
@@ -90,7 +90,7 @@ export const Contact: React.FC = () => {
                 </div>
 
                 <div className="flex items-start gap-3.5 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <Clock className="w-5 h-5 text-[#2874A6] shrink-0 mt-0.5" />
+                  <Clock className="w-5 h-5 text-[#15803d] shrink-0 mt-0.5" />
                   <div>
                     <span className="text-xs font-bold text-slate-500 uppercase block">Жауап беру уақыты</span>
                     <p className="font-semibold text-slate-900">1–2 жұмыс күні ішінде</p>
@@ -99,7 +99,7 @@ export const Contact: React.FC = () => {
               </div>
 
               {/* Notice */}
-              <div className="p-4 rounded-xl bg-sky-50 border border-sky-100 text-xs text-sky-900 leading-relaxed font-medium">
+              <div className="p-4 rounded-xl bg-green-50 border border-green-100 text-xs text-green-900 leading-relaxed font-medium">
                 <strong>Ескерту:</strong> Оқытушылар мен студенттер оқу құралына енгізілетін ұсыныстары мен түзетулерін де жібере алады.
               </div>
             </div>
@@ -129,7 +129,7 @@ export const Contact: React.FC = () => {
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           placeholder="Асан Әлиев"
-                          className="w-full pl-10 pr-4 py-3 rounded-xl text-sm border border-slate-200 focus:outline-none focus:border-[#1B4F72] focus:ring-1 focus:ring-[#1B4F72] bg-slate-50/50 focus:bg-white transition-all"
+                          className="w-full pl-10 pr-4 py-3 rounded-xl text-sm border border-slate-200 focus:outline-none focus:border-[#166534] focus:ring-1 focus:ring-[#166534] bg-slate-50/50 focus:bg-white transition-all"
                         />
                       </div>
                     </div>
@@ -148,7 +148,7 @@ export const Contact: React.FC = () => {
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           placeholder="student@example.kz"
-                          className="w-full pl-10 pr-4 py-3 rounded-xl text-sm border border-slate-200 focus:outline-none focus:border-[#1B4F72] focus:ring-1 focus:ring-[#1B4F72] bg-slate-50/50 focus:bg-white transition-all"
+                          className="w-full pl-10 pr-4 py-3 rounded-xl text-sm border border-slate-200 focus:outline-none focus:border-[#166534] focus:ring-1 focus:ring-[#166534] bg-slate-50/50 focus:bg-white transition-all"
                         />
                       </div>
                     </div>
@@ -165,7 +165,7 @@ export const Contact: React.FC = () => {
                         id="contact-chapter"
                         value={formData.chapter}
                         onChange={(e) => setFormData({ ...formData, chapter: e.target.value })}
-                        className="w-full pl-10 pr-4 py-3 rounded-xl text-sm border border-slate-200 focus:outline-none focus:border-[#1B4F72] focus:ring-1 focus:ring-[#1B4F72] bg-slate-50/50 focus:bg-white transition-all appearance-none"
+                        className="w-full pl-10 pr-4 py-3 rounded-xl text-sm border border-slate-200 focus:outline-none focus:border-[#166534] focus:ring-1 focus:ring-[#166534] bg-slate-50/50 focus:bg-white transition-all appearance-none"
                       >
                         <option value="Жалпы сұрақ">Жалпы сұрақ немесе пікір</option>
                         {CHAPTERS.map((ch) => (
@@ -189,7 +189,7 @@ export const Contact: React.FC = () => {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Мысалы: 2-бөлімдегі Де Бройль толқын ұзындығының формуласы бойынша есеп шығару әдісі туралы..."
-                      className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 focus:outline-none focus:border-[#1B4F72] focus:ring-1 focus:ring-[#1B4F72] bg-slate-50/50 focus:bg-white transition-all"
+                      className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 focus:outline-none focus:border-[#166534] focus:ring-1 focus:ring-[#166534] bg-slate-50/50 focus:bg-white transition-all"
                     />
                   </div>
 
@@ -198,7 +198,7 @@ export const Contact: React.FC = () => {
                     id="contact-submit-btn"
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#1B4F72] hover:bg-[#2874A6] text-white font-bold text-base shadow-md shadow-[#1B4F72]/20 hover:shadow-lg transition-all cursor-pointer disabled:opacity-70"
+                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#166534] hover:bg-[#15803d] text-white font-bold text-base shadow-md shadow-[#166534]/20 hover:shadow-lg transition-all cursor-pointer disabled:opacity-70"
                   >
                     {isSubmitting ? (
                       <span>Жіберілуде...</span>
@@ -220,7 +220,7 @@ export const Contact: React.FC = () => {
                       Сұрағыңыз қабылданды!
                     </h3>
                     <p className="text-sm text-slate-600 leading-relaxed">
-                      Рахмет, <strong className="text-slate-800">{formData.name}</strong>. Сіздің сұрағыңыз кафедра оқытушыларына жіберілді. Жауап <span className="text-[#1B4F72] font-semibold">{formData.email}</span> поштасы бойынша жіберіледі.
+                      Рахмет, <strong className="text-slate-800">{formData.name}</strong>. Сіздің сұрағыңыз кафедра оқытушыларына жіберілді. Жауап <span className="text-[#166534] font-semibold">{formData.email}</span> поштасы бойынша жіберіледі.
                     </p>
                   </div>
                   <button

@@ -27,14 +27,14 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({ isOpen, onClose 
       >
         
         {/* Top Header Banner */}
-        <div className="bg-[#1B4F72] text-white p-6 sm:p-7 relative overflow-hidden">
+        <div className="bg-[#166534] text-white p-6 sm:p-7 relative overflow-hidden">
           <div className="absolute right-[-10px] top-[-10px] opacity-10 text-8xl font-black select-none pointer-events-none">
             ⚛
           </div>
 
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-xl text-sky-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="absolute top-4 right-4 p-2 rounded-xl text-green-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
             aria-label="Жабу"
           >
             <X className="w-5 h-5" />
@@ -45,7 +45,7 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({ isOpen, onClose 
               <Construction className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-xs font-bold text-sky-200 uppercase tracking-wider block">Платформа статусы</span>
+              <span className="text-xs font-bold text-green-200 uppercase tracking-wider block">Платформа статусы</span>
               <h3 className="text-xl font-extrabold text-white">Dashboard модулі</h3>
             </div>
           </div>
@@ -72,15 +72,15 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({ isOpen, onClose 
             </h4>
             <div className="space-y-2 text-xs sm:text-sm font-medium text-slate-700">
               <div className="flex items-center gap-2.5 p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                <CheckCircle2 className="w-4 h-4 text-[#2874A6] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#15803d] shrink-0" />
                 <span>3D Интерактивті Атом мен Токамак симуляциялары</span>
               </div>
               <div className="flex items-center gap-2.5 p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                <CheckCircle2 className="w-4 h-4 text-[#2874A6] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#15803d] shrink-0" />
                 <span>6 бөлім бойынша онлайн тесттер мен статистика</span>
               </div>
               <div className="flex items-center gap-2.5 p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                <CheckCircle2 className="w-4 h-4 text-[#2874A6] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#15803d] shrink-0" />
                 <span>STEM & TVET зертханалық тапсырмалар қоры</span>
               </div>
             </div>
@@ -101,12 +101,12 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({ isOpen, onClose 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="email@example.kz"
-                    className="w-full pl-9 pr-3 py-2.5 rounded-lg text-xs sm:text-sm border border-slate-300 focus:outline-none focus:border-[#1B4F72] focus:ring-1 focus:ring-[#1B4F72]"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-lg text-xs sm:text-sm border border-slate-300 focus:outline-none focus:border-[#166534] focus:ring-1 focus:ring-[#166534]"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="px-4 py-2.5 rounded-lg bg-[#1B4F72] hover:bg-[#2874A6] text-white font-bold text-xs sm:text-sm transition-colors cursor-pointer shrink-0"
+                  className="px-4 py-2.5 rounded-lg bg-[#166534] hover:bg-[#15803d] text-white font-bold text-xs sm:text-sm transition-colors cursor-pointer shrink-0"
                 >
                   Жазылу
                 </button>

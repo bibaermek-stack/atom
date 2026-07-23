@@ -20,13 +20,13 @@ export const ChapterDetailModal: React.FC<ChapterDetailModalProps> = ({ chapter,
         {/* Modal Header */}
         <div className="p-6 bg-slate-50 border-b border-slate-200 flex items-start justify-between sticky top-0 bg-white/95 backdrop-blur-md z-10">
           <div>
-            <span className="text-xs font-black uppercase px-2.5 py-1 bg-[#1B4F72] text-white rounded-md tracking-wider">
+            <span className="text-xs font-black uppercase px-2.5 py-1 bg-[#166534] text-white rounded-md tracking-wider">
               {chapter.number}
             </span>
             <h3 className="text-2xl font-black text-slate-900 mt-2">
               {chapter.title}
             </h3>
-            <p className="text-xs sm:text-sm font-semibold text-[#2874A6] mt-0.5">
+            <p className="text-xs sm:text-sm font-semibold text-[#15803d] mt-0.5">
               {chapter.subtitle}
             </p>
           </div>
@@ -45,7 +45,7 @@ export const ChapterDetailModal: React.FC<ChapterDetailModalProps> = ({ chapter,
           {/* Section Description */}
           <div className="space-y-2">
             <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-              <FileText className="w-4 h-4 text-[#1B4F72]" />
+              <FileText className="w-4 h-4 text-[#166534]" />
               Бөлім сипаттамасы
             </h4>
             <p className="text-slate-700 text-sm sm:text-base leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200/80">
@@ -56,7 +56,7 @@ export const ChapterDetailModal: React.FC<ChapterDetailModalProps> = ({ chapter,
           {/* Subtopics List */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-              <BookOpen className="w-4 h-4 text-[#1B4F72]" />
+              <BookOpen className="w-4 h-4 text-[#166534]" />
               Қамтылатын негізгі тақырыптар
             </h4>
             <ul className="space-y-2">
@@ -73,13 +73,13 @@ export const ChapterDetailModal: React.FC<ChapterDetailModalProps> = ({ chapter,
           {chapter.keyFormulas && chapter.keyFormulas.length > 0 && (
             <div className="space-y-3 pt-2">
               <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                <Calculator className="w-4 h-4 text-[#1B4F72]" />
+                <Calculator className="w-4 h-4 text-[#166534]" />
                 Бөлімнің басты формулалары
               </h4>
               <div className="space-y-2">
                 {chapter.keyFormulas.map((item, idx) => (
-                  <div key={idx} className="bg-[#1B4F72]/5 p-3 rounded-xl border border-[#1B4F72]/15">
-                    <span className="text-xs font-bold text-[#1B4F72] block">{item.label}</span>
+                  <div key={idx} className="bg-[#166534]/5 p-3 rounded-xl border border-[#166534]/15">
+                    <span className="text-xs font-bold text-[#166534] block">{item.label}</span>
                     <code className="text-xs sm:text-sm font-mono font-bold text-slate-900 block mt-1 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200">
                       {item.formula}
                     </code>

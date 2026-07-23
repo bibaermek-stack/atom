@@ -13,8 +13,8 @@ export const Footer: React.FC = () => {
           {/* Brand & University Info (Col 1: 6 cols) */}
           <div className="md:col-span-6 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#1B4F72] text-white flex items-center justify-center font-bold shadow-md">
-                <Atom className="w-6 h-6 text-sky-300 animate-spin-slow" />
+              <div className="w-10 h-10 rounded-xl bg-[#166534] text-white flex items-center justify-center font-bold shadow-md">
+                <Atom className="w-6 h-6 text-green-300 animate-spin-slow" />
               </div>
               <span className="font-extrabold text-xl text-white tracking-tight">
                 Атом физикасы
@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
 
             <div className="pt-2 space-y-2 text-xs text-slate-400">
               <div className="flex items-start gap-2">
-                <GraduationCap className="w-4 h-4 text-[#2874A6] shrink-0 mt-0.5" />
+                <GraduationCap className="w-4 h-4 text-[#15803d] shrink-0 mt-0.5" />
                 <span className="font-bold text-slate-200">{BOOK_METADATA.university}</span>
               </div>
               <div className="flex items-center gap-2">

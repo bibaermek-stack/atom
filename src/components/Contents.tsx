@@ -10,7 +10,7 @@ interface ContentsProps {
 export const Contents: React.FC<ContentsProps> = ({ onSelectChapter }) => {
   // Helper for rendering chapter icon
   const renderChapterIcon = (iconName: string) => {
-    const iconClass = "w-6 h-6 text-[#1B4F72]";
+    const iconClass = "w-6 h-6 text-[#166534]";
     switch (iconName) {
       case 'Atom':
         return <Atom className={iconClass} />;
@@ -35,7 +35,7 @@ export const Contents: React.FC<ContentsProps> = ({ onSelectChapter }) => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#1B4F72]/10 text-[#1B4F72] text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#166534]/10 text-[#166534] text-xs font-bold uppercase tracking-wider">
             <BookOpen className="w-3.5 h-3.5" />
             <span>Мазмұнға шолу</span>
           </div>
@@ -53,29 +53,29 @@ export const Contents: React.FC<ContentsProps> = ({ onSelectChapter }) => {
             <div
               key={chapter.id}
               onClick={() => onSelectChapter(chapter)}
-              className="group cursor-pointer bg-white rounded-2xl p-7 border border-slate-200/90 shadow-2xs hover:shadow-xl hover:border-[#1B4F72]/30 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 relative overflow-hidden"
+              className="group cursor-pointer bg-white rounded-2xl p-7 border border-slate-200/90 shadow-2xs hover:shadow-xl hover:border-[#166534]/30 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 relative overflow-hidden"
             >
               {/* Subtle top accent bar */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-[#1B4F72] opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute top-0 left-0 right-0 h-1 bg-[#166534] opacity-0 group-hover:opacity-100 transition-opacity" />
 
               <div className="space-y-5">
                 
                 {/* Header: Number & Icon */}
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-black uppercase px-3 py-1 bg-[#1B4F72]/10 text-[#1B4F72] rounded-full">
+                  <span className="text-xs font-black uppercase px-3 py-1 bg-[#166534]/10 text-[#166534] rounded-full">
                     {chapter.number}
                   </span>
-                  <div className="w-12 h-12 rounded-xl bg-slate-100/90 group-hover:bg-[#1B4F72]/10 flex items-center justify-center transition-colors">
+                  <div className="w-12 h-12 rounded-xl bg-slate-100/90 group-hover:bg-[#166534]/10 flex items-center justify-center transition-colors">
                     {renderChapterIcon(chapter.iconName)}
                   </div>
                 </div>
 
                 {/* Title & Subtitle */}
                 <div className="space-y-1.5">
-                  <h3 className="text-xl font-extrabold text-slate-900 group-hover:text-[#1B4F72] transition-colors leading-tight">
+                  <h3 className="text-xl font-extrabold text-slate-900 group-hover:text-[#166534] transition-colors leading-tight">
                     {chapter.title}
                   </h3>
-                  <p className="text-xs font-semibold text-[#2874A6]">
+                  <p className="text-xs font-semibold text-[#15803d]">
                     {chapter.subtitle}
                   </p>
                 </div>
@@ -93,7 +93,7 @@ export const Contents: React.FC<ContentsProps> = ({ onSelectChapter }) => {
                     </span>
                   ))}
                   {chapter.topics.length > 3 && (
-                    <span className="text-[11px] font-bold text-[#1B4F72] px-1 py-0.5">
+                    <span className="text-[11px] font-bold text-[#166534] px-1 py-0.5">
                       +{chapter.topics.length - 3} тақырып
                     </span>
                   )}
@@ -102,7 +102,7 @@ export const Contents: React.FC<ContentsProps> = ({ onSelectChapter }) => {
               </div>
 
               {/* Bottom Action Link */}
-              <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#1B4F72] group-hover:text-[#2874A6]">
+              <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#166534] group-hover:text-[#15803d]">
                 <span>Тақырыптар тізімі мен формулалар</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
