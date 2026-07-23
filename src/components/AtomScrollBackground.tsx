@@ -19,13 +19,13 @@ const MODEL_COUNT = MODEL_URLS.length;
 
 const material = () =>
   new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#166534'),
-    metalness: 0.45,
-    roughness: 0.35,
-    emissive: new THREE.Color('#0a3d1f'),
-    emissiveIntensity: 0.12,
+    color: new THREE.Color('#22a35a'),
+    metalness: 0.35,
+    roughness: 0.28,
+    emissive: new THREE.Color('#1a7a42'),
+    emissiveIntensity: 0.35,
     transparent: true,
-    opacity: 0.55,
+    opacity: 0.68,
     side: THREE.DoubleSide,
   });
 
@@ -157,10 +157,13 @@ function Scene({
 }) {
   return (
     <>
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[6, 8, 4]} intensity={1.1} color="#ffffff" />
-      <directionalLight position={[-4, 2, -3]} intensity={0.4} color="#86efac" />
-      <pointLight position={[0, 0, 4]} intensity={0.3} color="#4ade80" />
+      <ambientLight intensity={0.95} />
+      <hemisphereLight args={['#e8fff0', '#94a3b8', 0.55]} />
+      <directionalLight position={[6, 8, 4]} intensity={1.55} color="#ffffff" />
+      <directionalLight position={[-4, 3, -2]} intensity={0.7} color="#86efac" />
+      <directionalLight position={[0, -2, 5]} intensity={0.45} color="#bbf7d0" />
+      <pointLight position={[0, 0, 4]} intensity={0.85} color="#4ade80" />
+      <pointLight position={[2, 2, 3]} intensity={0.5} color="#86efac" />
       <CombinedAtom model={model} progress={progress} />
     </>
   );
@@ -196,7 +199,7 @@ export const AtomScrollBackground: React.FC = () => {
         </Canvas>
       )}
 
-      <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-transparent to-white/55" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/35" />
 
       {loadedCount < MODEL_COUNT && (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[1] px-3 py-1.5 rounded-full bg-white/85 border border-[#166534]/20 text-[11px] font-semibold text-[#166534] shadow-sm">
