@@ -35,7 +35,7 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-slate-50 border-b border-slate-200/80 relative overflow-hidden">
+    <section id="contact" className="py-20 bg-slate-50/50 backdrop-blur-[2px] border-b border-slate-200/60 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* Section Header */}

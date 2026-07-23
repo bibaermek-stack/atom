@@ -30,7 +30,7 @@ export const Contents: React.FC<ContentsProps> = ({ onSelectChapter }) => {
   };
 
   return (
-    <section id="contents" className="py-20 bg-white border-b border-slate-100">
+    <section id="contents" className="py-20 bg-white/55 backdrop-blur-[2px] border-b border-slate-100/70">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* Section Header */}

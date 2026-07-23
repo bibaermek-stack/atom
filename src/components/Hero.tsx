@@ -8,10 +8,10 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onOpenDashboard }) => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-slate-50/50 to-white pt-12 pb-20 md:pt-20 md:pb-28 border-b border-slate-100">
-      {/* Background Decorative Graphic Orbits */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green-100/40 rounded-full blur-3xl -z-10 pointer-events-none" />
-      <div className="absolute -top-24 right-0 w-[400px] h-[400px] bg-green-100/30 rounded-full blur-2xl -z-10 pointer-events-none" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-slate-50/55 via-white/30 to-white/40 pt-12 pb-20 md:pt-20 md:pb-28 border-b border-slate-100/60">
+      {/* Soft orbs keep text readable without hiding the 3D atom */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green-100/25 rounded-full blur-3xl -z-10 pointer-events-none" />
+      <div className="absolute -top-24 right-0 w-[400px] h-[400px] bg-green-100/20 rounded-full blur-2xl -z-10 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">

@@ -9,6 +9,7 @@ import { DashboardCTA } from './components/DashboardCTA';
 import { Contact } from './components/Contact';
 import { DashboardModal } from './components/DashboardModal';
 import { Footer } from './components/Footer';
+import { AtomScrollBackground } from './components/AtomScrollBackground';
 import { Chapter } from './types';
 
 export default function App() {
@@ -16,33 +17,38 @@ export default function App() {
   const [isDashboardModalOpen, setIsDashboardModalOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col antialiased selection:bg-[#166534] selection:text-white">
-      {/* Header Bar */}
-      <Header onOpenDashboard={() => setIsDashboardModalOpen(true)} />
+    <div className="min-h-screen bg-transparent font-sans text-slate-900 flex flex-col antialiased selection:bg-[#166534] selection:text-white relative">
+      {/* 3D atom — fixed background, rotates on scroll */}
+      <AtomScrollBackground />
 
-      {/* Main Content Sections */}
-      <main className="flex-grow">
-        {/* Hero Section */}
-        <Hero onOpenDashboard={() => setIsDashboardModalOpen(true)} />
+      <div className="relative z-10 flex flex-col min-h-screen">
+        {/* Header Bar */}
+        <Header onOpenDashboard={() => setIsDashboardModalOpen(true)} />
 
-        {/* About Book Section */}
-        <AboutBook />
+        {/* Main Content Sections */}
+        <main className="flex-grow">
+          {/* Hero Section */}
+          <Hero onOpenDashboard={() => setIsDashboardModalOpen(true)} />
 
-        {/* Features Section (STEM, TVET, Kazakhstan) */}
-        <Features />
+          {/* About Book Section */}
+          <AboutBook />
 
-        {/* Table of Contents Section (6 Chapters Cards) */}
-        <Contents onSelectChapter={(chapter) => setSelectedChapter(chapter)} />
+          {/* Features Section (STEM, TVET, Kazakhstan) */}
+          <Features />
 
-        {/* Dashboard Call To Action Section */}
-        <DashboardCTA onOpenDashboard={() => setIsDashboardModalOpen(true)} />
+          {/* Table of Contents Section (6 Chapters Cards) */}
+          <Contents onSelectChapter={(chapter) => setSelectedChapter(chapter)} />
 
-        {/* Contact & Feedback Section */}
-        <Contact />
-      </main>
+          {/* Dashboard Call To Action Section */}
+          <DashboardCTA onOpenDashboard={() => setIsDashboardModalOpen(true)} />
 
-      {/* Footer */}
-      <Footer />
+          {/* Contact & Feedback Section */}
+          <Contact />
+        </main>
+
+        {/* Footer */}
+        <Footer />
+      </div>
 
       {/* Chapter Detail Modal */}
       <ChapterDetailModal
