@@ -30,21 +30,44 @@ function AtomModel({ progress }: { progress: number }) {
 
   const model = useMemo(() => {
     const clone = scene.clone(true);
+
     clone.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        const mesh = child as THREE.Mesh;
-        mesh.castShadow = false;
-        mesh.receiveShadow = false;
-        // Keep original materials; slightly boost green if basic
-        const mat = mesh.material;
-        if (mat && !Array.isArray(mat)) {
-          mat.side = THREE.DoubleSide;
-          if ('transparent' in mat) {
-            // leave as authored
+      if (!(child as THREE.Mesh).isMesh) return;
+      const mesh = child as THREE.Mesh;
+      mesh.castShadow = false;
+      mesh.receiveShadow = false;
+
+      const name = (mesh.name || mesh.parent?.name || '').toLowerCase();
+      const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+
+      mats.forEach((mat) => {
+        if (!mat) return;
+        mat.side = THREE.DoubleSide;
+
+        // Ensure orbit rings read as soft silver-grey (screenshot look)
+        if (
+          name.includes('bezier') ||
+          name.includes('circle') ||
+          (mat.name && mat.name.toLowerCase().includes('bezier'))
+        ) {
+          if ((mat as THREE.MeshStandardMaterial).isMeshStandardMaterial) {
+            const m = mat as THREE.MeshStandardMaterial;
+            m.color.set('#c8c8c8');
+            m.metalness = 0.15;
+            m.roughness = 0.35;
           }
         }
-      }
+
+        // Slight polish on particles
+        if ((mat as THREE.MeshStandardMaterial).isMeshStandardMaterial) {
+          const m = mat as THREE.MeshStandardMaterial;
+          m.metalness = Math.min(m.metalness, 0.2);
+          m.roughness = Math.max(m.roughness, 0.25);
+          m.envMapIntensity = 0.8;
+        }
+      });
     });
+
     return clone;
   }, [scene]);
 
@@ -58,9 +81,10 @@ function AtomModel({ progress }: { progress: number }) {
       4,
       delta
     );
+    // Gentle tilt like the screenshot framing
     groupRef.current.rotation.x = THREE.MathUtils.damp(
       groupRef.current.rotation.x,
-      0.2 + Math.sin(targetRotation) * 0.1,
+      0.35 + Math.sin(targetRotation) * 0.06,
       4,
       delta
     );
@@ -69,7 +93,8 @@ function AtomModel({ progress }: { progress: number }) {
   return (
     <group ref={groupRef}>
       <Center>
-        <primitive object={model} scale={0.35} />
+        {/* Compact size so it sits as background, not full-screen */}
+        <primitive object={model} scale={0.28} />
       </Center>
     </group>
   );
@@ -78,11 +103,12 @@ function AtomModel({ progress }: { progress: number }) {
 function Scene({ progress }: { progress: number }) {
   return (
     <>
-      <ambientLight intensity={0.85} />
-      <hemisphereLight args={['#f0fdf4', '#cbd5e1', 0.5]} />
-      <directionalLight position={[5, 8, 4]} intensity={1.3} color="#ffffff" />
-      <directionalLight position={[-4, 2, -3]} intensity={0.45} color="#86efac" />
-      <pointLight position={[0, 1, 4]} intensity={0.5} color="#4ade80" />
+      {/* Neutral studio lighting — matches textbook atom screenshot */}
+      <ambientLight intensity={0.75} />
+      <hemisphereLight args={['#ffffff', '#a8a8a8', 0.55]} />
+      <directionalLight position={[4, 6, 5]} intensity={1.25} color="#ffffff" />
+      <directionalLight position={[-3, 2, -2]} intensity={0.45} color="#e8e8f0" />
+      <pointLight position={[0, 0, 4]} intensity={0.35} color="#ffffff" />
       <Suspense fallback={null}>
         <AtomModel progress={progress} />
       </Suspense>
@@ -91,8 +117,7 @@ function Scene({ progress }: { progress: number }) {
 }
 
 /**
- * Fixed background atom from Science.blend (GLB).
- * Rotates with page scroll. Light site style.
+ * science_project_the_atom.glb — classic Bohr atom background, scroll spin.
  */
 export const AtomScrollBackground: React.FC = () => {
   const progress = useScrollProgress();
@@ -102,7 +127,9 @@ export const AtomScrollBackground: React.FC = () => {
       className="fixed inset-0 z-0 pointer-events-none"
       aria-hidden="true"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-50/90 via-green-50/40 to-slate-50/90" />
+      {/* Soft blurred backdrop like the reference screenshot */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#d4d4d8_0%,_#b0b0b8_45%,_#8a8a92_100%)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-transparent to-white/40" />
 
       <Canvas
         className="!absolute inset-0"
@@ -111,14 +138,17 @@ export const AtomScrollBackground: React.FC = () => {
           antialias: true,
           alpha: true,
           powerPreference: 'high-performance',
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.05,
         }}
-        camera={{ position: [0, 0, 6], fov: 40, near: 0.1, far: 100 }}
+        camera={{ position: [0, 0.3, 7.5], fov: 36, near: 0.1, far: 100 }}
         style={{ background: 'transparent' }}
       >
         <Scene progress={progress} />
       </Canvas>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-white/45" />
+      {/* Light wash so page text/cards stay readable */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/45 via-white/15 to-white/50" />
     </div>
   );
 };
