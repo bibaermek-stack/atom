@@ -4,7 +4,7 @@ import { BookCheck, User, Building2, Target, CheckCircle2, Bookmark, Award } fro
 
 export const AboutBook: React.FC = () => {
   return (
-    <section id="about" className="py-20 bg-white/55 backdrop-blur-[2px] border-b border-slate-100/70">
+    <section id="about" className="py-20 bg-white/92 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* Section Title */}

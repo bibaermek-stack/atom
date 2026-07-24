@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 
-/** All atom OBJ parts — loaded and merged into one model */
+/** All atom OBJ parts — merged into one glowing model */
 const MODEL_URLS = [
   '/models/model_0.obj',
   '/models/model_1.obj',
@@ -17,19 +18,14 @@ const MODEL_URLS = [
 
 const MODEL_COUNT = MODEL_URLS.length;
 
-const material = () =>
-  new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#22a35a'),
-    metalness: 0.35,
-    roughness: 0.28,
-    emissive: new THREE.Color('#1a7a42'),
-    emissiveIntensity: 0.35,
-    transparent: true,
-    opacity: 0.68,
-    side: THREE.DoubleSide,
-  });
+/** Reference screenshot palette: cyan-green glow on black */
+const GLOW = {
+  shell: '#2ee6a0',
+  mid: '#5fffc8',
+  core: '#c8ffe8',
+  soft: '#14b87a',
+};
 
-/** Full-page scroll progress 0 → 1 */
 function useScrollProgress() {
   const [progress, setProgress] = useState(0);
 
@@ -38,7 +34,6 @@ function useScrollProgress() {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(max > 0 ? window.scrollY / max : 0);
     };
-
     update();
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
@@ -51,9 +46,121 @@ function useScrollProgress() {
   return progress;
 }
 
+function mergePositions(geos: THREE.BufferGeometry[]): THREE.BufferGeometry {
+  const positions: number[] = [];
+  for (const g of geos) {
+    const pos = g.getAttribute('position');
+    if (!pos) continue;
+    for (let i = 0; i < pos.count; i++) {
+      positions.push(pos.getX(i), pos.getY(i), pos.getZ(i));
+    }
+  }
+  const merged = new THREE.BufferGeometry();
+  merged.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  return merged;
+}
+
 /**
- * Load every OBJ and merge into a single centered Group.
+ * Build the reference look: dense glowing points + faint wireframe shell.
+ * Matches Screenshot 2026-07-23 164939 (black void, neon green atom).
  */
+function buildGlowAtom(source: THREE.Object3D): THREE.Group {
+  const group = new THREE.Group();
+  const geometries: THREE.BufferGeometry[] = [];
+
+  source.updateMatrixWorld(true);
+  source.traverse((child) => {
+    if (!(child as THREE.Mesh).isMesh) return;
+    const mesh = child as THREE.Mesh;
+    const geo = mesh.geometry.clone();
+    geo.applyMatrix4(mesh.matrixWorld);
+    geometries.push(geo);
+  });
+
+  if (geometries.length === 0) return group;
+
+  const merged = geometries.length === 1 ? geometries[0] : mergePositions(geometries);
+
+  merged.computeBoundingBox();
+  const box = merged.boundingBox!;
+  const center = box.getCenter(new THREE.Vector3());
+  merged.translate(-center.x, -center.y, -center.z);
+
+  const size = box.getSize(new THREE.Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z) || 1;
+  group.scale.setScalar(3.8 / maxDim);
+
+  // Main orbital shell — dense particles (reference look)
+  group.add(
+    new THREE.Points(
+      merged,
+      new THREE.PointsMaterial({
+        color: new THREE.Color(GLOW.shell),
+        size: 0.022,
+        sizeAttenuation: true,
+        transparent: true,
+        opacity: 0.92,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        toneMapped: false,
+      })
+    )
+  );
+
+  // Brighter finer dust — nucleus density + sparkle
+  group.add(
+    new THREE.Points(
+      merged,
+      new THREE.PointsMaterial({
+        color: new THREE.Color(GLOW.core),
+        size: 0.01,
+        sizeAttenuation: true,
+        transparent: true,
+        opacity: 0.5,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        toneMapped: false,
+      })
+    )
+  );
+
+  // Soft mid glow layer
+  group.add(
+    new THREE.Points(
+      merged,
+      new THREE.PointsMaterial({
+        color: new THREE.Color(GLOW.mid),
+        size: 0.038,
+        sizeAttenuation: true,
+        transparent: true,
+        opacity: 0.28,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        toneMapped: false,
+      })
+    )
+  );
+
+  // Subtle wireframe mesh for shell structure
+  group.add(
+    new THREE.Mesh(
+      merged,
+      new THREE.MeshBasicMaterial({
+        color: new THREE.Color(GLOW.soft),
+        wireframe: true,
+        transparent: true,
+        opacity: 0.08,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        toneMapped: false,
+      })
+    )
+  );
+
+  return group;
+}
+
+/** Load all 8 OBJs, merge into one glowing atom */
 function useCombinedAtom() {
   const [combined, setCombined] = useState<THREE.Group | null>(null);
   const [loadedCount, setLoadedCount] = useState(0);
@@ -70,16 +177,6 @@ function useCombinedAtom() {
         try {
           const raw = await loader.loadAsync(MODEL_URLS[i]);
           if (cancelled) return;
-
-          raw.traverse((child) => {
-            if (!(child as THREE.Mesh).isMesh) return;
-            const mesh = child as THREE.Mesh;
-            mesh.material = material();
-            mesh.castShadow = false;
-            mesh.receiveShadow = false;
-          });
-
-          // Keep each part as a child so all 8 models form one object
           root.add(raw);
           setLoadedCount(i + 1);
         } catch (e) {
@@ -89,22 +186,7 @@ function useCombinedAtom() {
       }
 
       if (cancelled) return;
-
-      // Center + scale the whole combined model once
-      root.updateMatrixWorld(true);
-      const box = new THREE.Box3().setFromObject(root);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z) || 1;
-      const scale = 3.2 / maxDim;
-
-      // Pivot: center geometry at origin, then uniform scale
-      const pivot = new THREE.Group();
-      root.position.set(-center.x, -center.y, -center.z);
-      pivot.add(root);
-      pivot.scale.setScalar(scale);
-
-      setCombined(pivot);
+      setCombined(buildGlowAtom(root));
     })();
 
     return () => {
@@ -135,7 +217,7 @@ function CombinedAtom({
     );
     groupRef.current.rotation.x = THREE.MathUtils.damp(
       groupRef.current.rotation.x,
-      0.25 + Math.sin(targetRotation) * 0.12,
+      0.12 + Math.sin(targetRotation) * 0.08,
       4,
       delta
     );
@@ -157,20 +239,27 @@ function Scene({
 }) {
   return (
     <>
-      <ambientLight intensity={0.95} />
-      <hemisphereLight args={['#e8fff0', '#94a3b8', 0.55]} />
-      <directionalLight position={[6, 8, 4]} intensity={1.55} color="#ffffff" />
-      <directionalLight position={[-4, 3, -2]} intensity={0.7} color="#86efac" />
-      <directionalLight position={[0, -2, 5]} intensity={0.45} color="#bbf7d0" />
-      <pointLight position={[0, 0, 4]} intensity={0.85} color="#4ade80" />
-      <pointLight position={[2, 2, 3]} intensity={0.5} color="#86efac" />
+      <color attach="background" args={['#000000']} />
+      <ambientLight intensity={0.25} />
+      <pointLight position={[0, 0, 2.5]} intensity={1.4} color="#5fffc8" />
+      <pointLight position={[3, 2, 2]} intensity={0.6} color="#2ee6a0" />
       <CombinedAtom model={model} progress={progress} />
+      <EffectComposer multisampling={0} enableNormalPass={false}>
+        <Bloom
+          luminanceThreshold={0.12}
+          luminanceSmoothing={0.35}
+          intensity={2.1}
+          mipmapBlur
+          radius={0.75}
+        />
+      </EffectComposer>
     </>
   );
 }
 
 /**
- * Fixed background: all 8 OBJs merged into one atom, rotates on scroll.
+ * Fixed full-viewport atom matching the reference screenshot:
+ * black space + neon green particle atom, all 8 OBJs combined, scroll spin.
  */
 export const AtomScrollBackground: React.FC = () => {
   const progress = useScrollProgress();
@@ -181,31 +270,35 @@ export const AtomScrollBackground: React.FC = () => {
       className="fixed inset-0 z-0 pointer-events-none"
       aria-hidden="true"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-50/90 via-green-50/40 to-slate-50/90" />
+      <div className="absolute inset-0 bg-black" />
 
       {combined && (
         <Canvas
           className="!absolute inset-0"
-          dpr={[1, 1.5]}
+          dpr={[1, 1.75]}
           gl={{
             antialias: true,
-            alpha: true,
+            alpha: false,
             powerPreference: 'high-performance',
+            toneMapping: THREE.NoToneMapping,
           }}
-          camera={{ position: [0, 0, 6.5], fov: 42, near: 0.1, far: 100 }}
-          style={{ background: 'transparent' }}
+          camera={{ position: [0, 0, 7], fov: 38, near: 0.1, far: 100 }}
+          onCreated={({ gl }) => {
+            gl.setClearColor('#000000', 1);
+          }}
         >
           <Scene model={combined} progress={progress} />
         </Canvas>
       )}
 
-      <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/35" />
+      {/* Soft edge vignette — keep atom bright in center */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,transparent_40%,rgba(0,0,0,0.45)_75%,rgba(0,0,0,0.75)_100%)]" />
 
       {loadedCount < MODEL_COUNT && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[1] px-3 py-1.5 rounded-full bg-white/85 border border-[#166534]/20 text-[11px] font-semibold text-[#166534] shadow-sm">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[1] px-3 py-1.5 rounded-full bg-black/70 border border-emerald-400/35 text-[11px] font-semibold text-emerald-300 shadow-sm backdrop-blur-sm">
           {error
             ? error
-            : `Модельдер біріктірілуде… ${loadedCount}/${MODEL_COUNT}`}
+            : `Атом моделі жүктелуде… ${loadedCount}/${MODEL_COUNT}`}
         </div>
       )}
     </div>

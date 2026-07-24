@@ -8,38 +8,35 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onOpenDashboard }) => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-slate-50/55 via-white/30 to-white/40 pt-12 pb-20 md:pt-20 md:pb-28 border-b border-slate-100/60">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green-100/25 rounded-full blur-3xl -z-10 pointer-events-none" />
-      <div className="absolute -top-24 right-0 w-[400px] h-[400px] bg-green-100/20 rounded-full blur-2xl -z-10 pointer-events-none" />
-
+    <section className="relative overflow-hidden bg-transparent pt-12 pb-20 md:pt-20 md:pb-28 border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           <div className="lg:col-span-7 space-y-6 text-left">
             
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#166534]/10 text-[#166534] text-xs sm:text-sm font-semibold border border-[#166534]/20 shadow-2xs">
-              <Sparkles className="w-4 h-4 text-[#15803d]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/15 text-emerald-300 text-xs sm:text-sm font-semibold border border-emerald-400/30 shadow-2xs backdrop-blur-sm">
+              <Sparkles className="w-4 h-4 text-emerald-300" />
               <span>STEM және TVET білім беру бағдарламасы</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
-              <span className="block text-[#166534]">Атом физикасы</span>
-              <span className="block text-slate-800 font-extrabold mt-1">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.15] drop-shadow-lg">
+              <span className="block text-emerald-400">Атом физикасы</span>
+              <span className="block text-white font-extrabold mt-1">
                 және атом ядросының физикасы
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl">
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
               STEM және TVET тәсілдерімен байытылған, техникалық және жоғары оқу орындары студенттері мен магистранттарына арналған заманауи оқу құралы.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-slate-500 font-medium">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white rounded-md border border-slate-200 text-slate-700 shadow-2xs">
-                <GraduationCap className="w-4 h-4 text-[#166534]" />
+            <div className="flex flex-wrap items-center gap-3 pt-1 text-xs font-medium">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 backdrop-blur-md rounded-md border border-white/15 text-slate-100 shadow-2xs">
+                <GraduationCap className="w-4 h-4 text-emerald-400" />
                 {BOOK_METADATA.university}
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white rounded-md border border-slate-200 text-slate-700 shadow-2xs">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 backdrop-blur-md rounded-md border border-white/15 text-slate-100 shadow-2xs">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 Рецензияланған оқу басылымы
               </span>
             </div>
@@ -48,7 +45,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDashboard }) => {
               <a
                 id="hero-about-btn"
                 href="#about"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#166534] hover:bg-[#15803d] text-white font-semibold text-base shadow-md shadow-[#166534]/20 hover:shadow-lg transition-all duration-200 cursor-pointer group"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#166534] hover:bg-[#15803d] text-white font-semibold text-base shadow-md shadow-emerald-900/40 hover:shadow-lg transition-all duration-200 cursor-pointer group"
               >
                 <BookOpen className="w-5 h-5" />
                 <span>Кітап туралы</span>
@@ -58,9 +55,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDashboard }) => {
               <button
                 id="hero-dashboard-btn"
                 onClick={onOpenDashboard}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-base shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-base border border-white/20 shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer backdrop-blur-sm"
               >
-                <LayoutDashboard className="w-5 h-5 text-green-400" />
+                <LayoutDashboard className="w-5 h-5 text-emerald-400" />
                 <span>Dashboard-қа өту</span>
               </button>
             </div>
@@ -68,7 +65,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDashboard }) => {
           </div>
 
           <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-md bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/90 shadow-xl shadow-slate-200/50 space-y-6">
+            <div className="relative w-full max-w-md bg-white/95 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/20 shadow-2xl shadow-black/50 space-y-6">
               
               <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                 <div className="flex items-center gap-3">
