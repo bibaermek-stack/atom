@@ -69,7 +69,7 @@ function AtomModel({ progress }: { progress: number }) {
   return (
     <group ref={groupRef}>
       <Center>
-        <primitive object={model} scale={1.4} />
+        <primitive object={model} scale={0.75} />
       </Center>
     </group>
   );
