@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Atom, Menu, X, LayoutDashboard } from 'lucide-react';
 
-interface HeaderProps {
-  onOpenDashboard: () => void;
-}
+export const DASHBOARD_URL = 'https://atom-dashboard-sigma.vercel.app/';
 
-export const Header: React.FC<HeaderProps> = ({ onOpenDashboard }) => {
+export const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -47,14 +45,16 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDashboard }) => {
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <button
+            <a
               id="header-dashboard-btn"
-              onClick={onOpenDashboard}
+              href={DASHBOARD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#166534] hover:bg-[#15803d] text-white font-semibold text-sm shadow-md shadow-[#166534]/20 hover:shadow-lg hover:shadow-[#15803d]/25 transition-all duration-200 active:scale-98 cursor-pointer"
             >
               <LayoutDashboard className="w-4 h-4" />
               <span>Dashboard</span>
-            </button>
+            </a>
           </div>
 
           <div className="md:hidden flex items-center gap-2">
@@ -84,17 +84,17 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDashboard }) => {
               </a>
             ))}
             <div className="pt-2 border-t border-slate-100 mt-2">
-              <button
+              <a
                 id="mobile-dashboard-btn"
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  onOpenDashboard();
-                }}
+                href={DASHBOARD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#166534] text-white font-semibold text-base shadow-sm"
               >
                 <LayoutDashboard className="w-5 h-5" />
                 <span>Dashboard</span>
-              </button>
+              </a>
             </div>
           </div>
         </div>

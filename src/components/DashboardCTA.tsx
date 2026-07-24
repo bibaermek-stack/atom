@@ -1,11 +1,8 @@
 import React from 'react';
 import { LayoutDashboard, AlertCircle, Sparkles, ArrowRight, Construction, Clock, Laptop } from 'lucide-react';
+import { DASHBOARD_URL } from './Header';
 
-interface DashboardCTAProps {
-  onOpenDashboard: () => void;
-}
-
-export const DashboardCTA: React.FC<DashboardCTAProps> = ({ onOpenDashboard }) => {
+export const DashboardCTA: React.FC = () => {
   return (
     <section id="dashboard" className="py-20 bg-gradient-to-br from-slate-900 via-[#166534] to-[#15803d] text-white relative overflow-hidden">
       
@@ -72,15 +69,17 @@ export const DashboardCTA: React.FC<DashboardCTAProps> = ({ onOpenDashboard }) =
 
         {/* Large Action Button */}
         <div className="pt-2">
-          <button
+          <a
             id="cta-dashboard-btn"
-            onClick={onOpenDashboard}
+            href={DASHBOARD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-white hover:bg-green-50 text-[#166534] font-black text-lg shadow-2xl hover:scale-102 transition-all duration-200 cursor-pointer group"
           >
             <LayoutDashboard className="w-6 h-6 text-[#166534]" />
             <span>Dashboard-қа өту</span>
             <ArrowRight className="w-5 h-5 text-[#15803d] group-hover:translate-x-1 transition-transform" />
-          </button>
+          </a>
         </div>
 
       </div>

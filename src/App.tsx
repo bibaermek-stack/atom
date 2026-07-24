@@ -7,14 +7,12 @@ import { Contents } from './components/Contents';
 import { ChapterDetailModal } from './components/ChapterDetailModal';
 import { DashboardCTA } from './components/DashboardCTA';
 import { Contact } from './components/Contact';
-import { DashboardModal } from './components/DashboardModal';
 import { Footer } from './components/Footer';
 import { AtomScrollBackground } from './components/AtomScrollBackground';
 import { Chapter } from './types';
 
 export default function App() {
   const [selectedChapter, setSelectedChapter] = useState<Chapter | null>(null);
-  const [isDashboardModalOpen, setIsDashboardModalOpen] = useState<boolean>(false);
 
   return (
     <div className="min-h-screen bg-transparent font-sans text-slate-900 flex flex-col antialiased selection:bg-[#166534] selection:text-white relative">
@@ -22,44 +20,23 @@ export default function App() {
       <AtomScrollBackground />
 
       <div className="relative z-10 flex flex-col min-h-screen">
-        {/* Header Bar */}
-        <Header onOpenDashboard={() => setIsDashboardModalOpen(true)} />
+        <Header />
 
-        {/* Main Content Sections */}
         <main className="flex-grow">
-          {/* Hero Section */}
-          <Hero onOpenDashboard={() => setIsDashboardModalOpen(true)} />
-
-          {/* About Book Section */}
+          <Hero />
           <AboutBook />
-
-          {/* Features Section (STEM, TVET, Kazakhstan) */}
           <Features />
-
-          {/* Table of Contents Section (6 Chapters Cards) */}
           <Contents onSelectChapter={(chapter) => setSelectedChapter(chapter)} />
-
-          {/* Dashboard Call To Action Section */}
-          <DashboardCTA onOpenDashboard={() => setIsDashboardModalOpen(true)} />
-
-          {/* Contact & Feedback Section */}
+          <DashboardCTA />
           <Contact />
         </main>
 
-        {/* Footer */}
         <Footer />
       </div>
 
-      {/* Chapter Detail Modal */}
       <ChapterDetailModal
         chapter={selectedChapter}
         onClose={() => setSelectedChapter(null)}
-      />
-
-      {/* Dashboard Status Modal */}
-      <DashboardModal
-        isOpen={isDashboardModalOpen}
-        onClose={() => setIsDashboardModalOpen(false)}
       />
     </div>
   );

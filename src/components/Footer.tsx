@@ -53,7 +53,7 @@ export const Footer: React.FC = () => {
                 <a href="#features" className="hover:text-white transition-colors">STEM & TVET Ерекшеліктері</a>
               </li>
               <li>
-                <a href="#dashboard" className="hover:text-white transition-colors">Dashboard модулі</a>
+                <a href="https://atom-dashboard-sigma.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Dashboard модулі</a>
               </li>
               <li>
                 <a href="#contact" className="hover:text-white transition-colors">Байланыс</a>

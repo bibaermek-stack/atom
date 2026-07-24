@@ -1,12 +1,9 @@
 import React from 'react';
 import { BookOpen, LayoutDashboard, ArrowRight, ShieldCheck, GraduationCap, Sparkles } from 'lucide-react';
 import { BOOK_METADATA } from '../data/chaptersData';
+import { DASHBOARD_URL } from './Header';
 
-interface HeroProps {
-  onOpenDashboard: () => void;
-}
-
-export const Hero: React.FC<HeroProps> = ({ onOpenDashboard }) => {
+export const Hero: React.FC = () => {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-slate-50/55 via-white/30 to-white/40 pt-12 pb-20 md:pt-20 md:pb-28 border-b border-slate-100/60">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green-100/25 rounded-full blur-3xl -z-10 pointer-events-none" />
@@ -55,14 +52,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDashboard }) => {
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
 
-              <button
+              <a
                 id="hero-dashboard-btn"
-                onClick={onOpenDashboard}
+                href={DASHBOARD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-base shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
               >
                 <LayoutDashboard className="w-5 h-5 text-green-400" />
                 <span>Dashboard-қа өту</span>
-              </button>
+              </a>
             </div>
 
           </div>
