@@ -90,16 +90,16 @@ function buildGlowAtom(source: THREE.Object3D): THREE.Group {
   const maxDim = Math.max(size.x, size.y, size.z) || 1;
   group.scale.setScalar(3.8 / maxDim);
 
-  // Main orbital shell — dense particles (reference look)
+  // Main orbital shell — dense particles (reference look, toned down)
   group.add(
     new THREE.Points(
       merged,
       new THREE.PointsMaterial({
         color: new THREE.Color(GLOW.shell),
-        size: 0.022,
+        size: 0.016,
         sizeAttenuation: true,
         transparent: true,
-        opacity: 0.92,
+        opacity: 0.55,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
         toneMapped: false,
@@ -107,16 +107,16 @@ function buildGlowAtom(source: THREE.Object3D): THREE.Group {
     )
   );
 
-  // Brighter finer dust — nucleus density + sparkle
+  // Finer core dust — softer sparkle
   group.add(
     new THREE.Points(
       merged,
       new THREE.PointsMaterial({
         color: new THREE.Color(GLOW.core),
-        size: 0.01,
+        size: 0.008,
         sizeAttenuation: true,
         transparent: true,
-        opacity: 0.5,
+        opacity: 0.28,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
         toneMapped: false,
@@ -130,10 +130,10 @@ function buildGlowAtom(source: THREE.Object3D): THREE.Group {
       merged,
       new THREE.PointsMaterial({
         color: new THREE.Color(GLOW.mid),
-        size: 0.038,
+        size: 0.028,
         sizeAttenuation: true,
         transparent: true,
-        opacity: 0.28,
+        opacity: 0.12,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
         toneMapped: false,
@@ -149,7 +149,7 @@ function buildGlowAtom(source: THREE.Object3D): THREE.Group {
         color: new THREE.Color(GLOW.soft),
         wireframe: true,
         transparent: true,
-        opacity: 0.08,
+        opacity: 0.04,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
         toneMapped: false,
@@ -240,17 +240,17 @@ function Scene({
   return (
     <>
       <color attach="background" args={['#000000']} />
-      <ambientLight intensity={0.25} />
-      <pointLight position={[0, 0, 2.5]} intensity={1.4} color="#5fffc8" />
-      <pointLight position={[3, 2, 2]} intensity={0.6} color="#2ee6a0" />
+      <ambientLight intensity={0.2} />
+      <pointLight position={[0, 0, 2.5]} intensity={0.7} color="#5fffc8" />
+      <pointLight position={[3, 2, 2]} intensity={0.35} color="#2ee6a0" />
       <CombinedAtom model={model} progress={progress} />
       <EffectComposer multisampling={0} enableNormalPass={false}>
         <Bloom
-          luminanceThreshold={0.12}
-          luminanceSmoothing={0.35}
-          intensity={2.1}
+          luminanceThreshold={0.25}
+          luminanceSmoothing={0.45}
+          intensity={0.85}
           mipmapBlur
-          radius={0.75}
+          radius={0.55}
         />
       </EffectComposer>
     </>
