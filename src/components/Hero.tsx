@@ -20,9 +20,9 @@ export const Hero: React.FC = () => {
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
-              <span className="block text-[#166534]">Атом физикасы</span>
+              <span className="block text-[#166534]">Атомдық және ядролық физика</span>
               <span className="block text-slate-800 font-extrabold mt-1">
-                және атом ядросының физикасы
+                теория, қолданбалы оқыту және STEM кейстер
               </span>
             </h1>
 
@@ -76,7 +76,7 @@ export const Hero: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 text-sm">Оқу құралы құрылымы</h3>
-                    <p className="text-xs text-slate-500">6 негізгі бөлімнен тұрады</p>
+                    <p className="text-xs text-slate-500">6 тараудан тұрады</p>
                   </div>
                 </div>
                 <span className="text-xs font-bold px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200/80 rounded-full">
@@ -104,7 +104,7 @@ export const Hero: React.FC = () => {
               <div className="grid grid-cols-2 gap-3 text-left">
                 <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-100">
                   <span className="block text-2xl font-black text-[#166534]">6</span>
-                  <span className="text-xs font-semibold text-slate-600">Негізгі бөлім</span>
+                  <span className="text-xs font-semibold text-slate-600">Тарау</span>
                 </div>
                 <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-100">
                   <span className="block text-2xl font-black text-[#15803d]">100%</span>

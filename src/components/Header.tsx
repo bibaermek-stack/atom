@@ -24,7 +24,7 @@ export const Header: React.FC = () => {
             </div>
             <div className="flex flex-col">
               <span className="font-extrabold text-xl tracking-tight text-[#166534] leading-tight group-hover:text-[#15803d] transition-colors">
-                Атом физикасы
+                Атомдық және ядролық физика
               </span>
               <span className="text-xs text-slate-500 font-medium tracking-wide">
                 Оқу құралы
