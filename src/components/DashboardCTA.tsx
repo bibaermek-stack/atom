@@ -56,7 +56,7 @@ export const DashboardCTA: React.FC = () => {
               <span className="text-green-300 font-bold block flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5" /> Тікелей Тест
               </span>
-              <p className="text-slate-300">6 бөлім бойынша онлайн білім тексеру</p>
+              <p className="text-slate-300">6 тарау бойынша онлайн білім тексеру</p>
             </div>
             <div className="bg-white/5 p-3 rounded-xl border border-white/10 space-y-1">
               <span className="text-green-300 font-bold block flex items-center gap-1">

@@ -40,10 +40,10 @@ export const Contents: React.FC<ContentsProps> = ({ onSelectChapter }) => {
             <span>Мазмұнға шолу</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Оқу құралының негізгі 6 бөлімі
+            Оқу құралының 6 тарауы
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            Әрбір бөлім тақырыптық теориялар, кванттық теңдеулер, графиктік диаграммалар мен зертханалық тапсырмалармен толықтырылған.
+            Әрбір тарау тақырыптық теориялар, кванттық теңдеулер, графиктік диаграммалар мен зертханалық тапсырмалармен толықтырылған.
           </p>
         </div>
 

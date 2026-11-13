@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
                 <Atom className="w-6 h-6 text-green-300 animate-spin-slow" />
               </div>
               <span className="font-extrabold text-xl text-white tracking-tight">
-                Атом физикасы
+                Атомдық және ядролық физика
               </span>
             </div>
 
@@ -47,7 +47,7 @@ export const Footer: React.FC = () => {
                 <a href="#about" className="hover:text-white transition-colors">Кітап туралы</a>
               </li>
               <li>
-                <a href="#contents" className="hover:text-white transition-colors">Мазмұны (6 бөлім)</a>
+                <a href="#contents" className="hover:text-white transition-colors">Мазмұны (6 тарау)</a>
               </li>
               <li>
                 <a href="#features" className="hover:text-white transition-colors">STEM & TVET Ерекшеліктері</a>
@@ -78,7 +78,7 @@ export const Footer: React.FC = () => {
         {/* Bottom copyright notice */}
         <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <p className="text-center sm:text-left">
-            © {new Date().getFullYear()} «Атом физикасы және атом ядросының физикасы». БАРЛЫҚ ҚҰҚЫҚТАР ҚОРҒАЛҒАН.
+            © {new Date().getFullYear()} «Атомдық және ядролық физика». БАРЛЫҚ ҚҰҚЫҚТАР ҚОРҒАЛҒАН.
           </p>
           <p className="text-slate-400 font-medium">
             {BOOK_METADATA.university}

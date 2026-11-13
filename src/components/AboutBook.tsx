@@ -43,7 +43,7 @@ export const AboutBook: React.FC = () => {
             <div className="space-y-4 bg-slate-50/80 p-6 rounded-2xl border border-slate-200/80">
               <h4 className="text-lg font-bold text-[#166534] flex items-center gap-2">
                 <Award className="w-5 h-5 text-[#15803d]" />
-                Негізгі бөлімдердің қысқаша тізімі (1–6 бөлім):
+                Негізгі бөлімдердің қысқаша тізімі (1–6 тарау):
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {CHAPTERS.map((chap) => (
